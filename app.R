@@ -35,6 +35,7 @@ load("data/people/pacientes.RData")
 
 
 ui <- bootstrapPage(
+  titlePanel(windowTitle = "+APS Dashboard", title = ""),
   theme = shinytheme("simplex"),
   useShinyjs(),
   tags$style(type = "text/css", "html, body {width:100%; height:100%}"),
@@ -71,12 +72,22 @@ ui <- bootstrapPage(
         "),
 
 
-
+  
 
   fixedPanel(id="AP",
     top = 20, left = 15, bottom= 30, draggable = F, width = "20%", style = "z-index:500; min-width: 300px;",
     column(12,
-           tags$head(HTML('<link rel="icon", href="CIIPS.png", type="image/png" />')),
+           fluidRow(
+             br(),
+             br(),
+             column(6,
+                    br(),
+                    img(src='IECS_20a-OK-esp.png', align = "center", height="100%", width="100%"),
+                    align="center"),
+             column(6,
+                    img(src='CIPS_fondo-transparente.png', align = "center", height="75%", width="75%"),
+                    align="center")
+           ),
            tags$h3(strong("+APS")),
            h4("Primary Care Dashboard"),
            h5("Comuna 7 - Ciudad Autónoma de Buenos Aires"),
@@ -111,6 +122,7 @@ ui <- bootstrapPage(
   uiOutput("AP9"),
   uiOutput("AP10"),
   uiOutput("AP11"),
+  uiOutput("AP12"),
   fixedPanel(id= "FP",
              top=20,
              left=50,
@@ -151,12 +163,19 @@ ui <- bootstrapPage(
                                     fluidPage(
                                       br(),
                                       br(),
+                                      h4(strong("Selected Key Performance indicators: Clinical (%)")),
+                                      h5("Last year"),
+                                      br(),
+                                      
                                       fluidRow(tags$div(id="add"))
                                     )
                            ),
                   tabPanel("Management",
                                 fluidPage(
                                 br(),
+                                br(),
+                                h4(strong("Selected Key Performance indicators: Management")),
+                                h5("Last year"),
                                 br(),
                                 fluidRow(tags$div(id="add2")))
                            )
@@ -503,19 +522,32 @@ server <- function (input,output,session) {
   
   observeEvent(input$show_indicators, {
     indicatorsList <- c(
-      'Pregnant women receiving prenatal care',
+      'Pregnant women receiving antenatal care',
       'Children 0-9 years of age with health check-ups',
       'Adolescents 10-19 years of age with health check-ups',
-      'Children with overweight or obesity check-ups',
+      'Children with overweight or obesity ',
       'Adults with colorectal cancer screening',
-      'Women with invasive cervical carcinoma',
-      'Women with breast cancer sreening',
-      'Management of Adults with type 2 diabetes',
-      'Management of Adults with hypertension and acute myocardial infarction'
+      'Women with cervical cancer screening',
+      'Women with breast cancer screening',
+      'Type 2 diabetes control',
+      'Blood pressure control among hypertensives'
+      
     )
     
+    values <- c(80,
+                80,
+                30,
+                40,
+                30,
+                80,
+                70,
+                30,
+                40)
+    
+    
+    
     lapply(seq_along(indicatorsList), function (i) {
-      value <- paste0(format(runif(1,3,19),digits=2, nsmall=1, big.mark = ",", decimal.mark = "."),"%")
+      value <- paste0(format(runif(1,values[i]*.9,values[i]*1.1),digits=2, nsmall=1, big.mark = ",", decimal.mark = "."),"%")
       output[[indicatorsList[i]]] <- renderUI({customInfoBoxInd(indicatorsList[i],value,"#BDD9E3","user-md",indicatorsList[i])})
         
       insertUI(
@@ -528,20 +560,32 @@ server <- function (input,output,session) {
       
     
     managementIndicatorsList <- c(
-      'People with exclusive public coverage identified in the Health Responsibility Area of a health establishment for their continuous care',
-      'Population georeferenced and primary health care providers with a catchment area defined',
-      'Population with a GP',
-      'Computerization of the health center',
-      'Training of health professionals',
-      'Interdisciplinary work of the health team'
+      'Users from the eligible population of the catchment area',
+      'Users registered with a family doctor and a family health team',
+      '# of family health teams',
+      '# of medical specialists',
+      'Connectivity bandwith',
+      'Use of an electronic medical record',
+      'Health workers receiving training',
+      '# of workshops and training sessions',
+      'Use of an web-based scheduling system',
+      '# of scheduled visits for chronic care management'
     )
     
+    values <- c('60%',
+                '40%',
+                '3',
+                '8',
+                '50mb',
+                'Yes',
+                '30%',
+                '6',
+                'No',
+                '26')
+    
+    
     lapply(seq_along(managementIndicatorsList), function (i) {
-      if (managementIndicatorsList[i] %in% c('Cantidad de reuniones del Equipo de salud','Profesionales del centro que realizaron al menos 1 capacitación en el último año / Total de los profesionales del centro')) {
-        value <- paste0(format(runif(1,1,120),digits=0, nsmall=0, big.mark = ",", decimal.mark = "."))
-      } else {
-        value <- paste0(format(runif(1,3,19),digits=2, nsmall=1, big.mark = ",", decimal.mark = "."),"%")
-      }
+      value <- values[i]
       
       output[[managementIndicatorsList[i]]] <- renderUI({customInfoBoxManagementInd(managementIndicatorsList[i],value,"#fec44f","chart-bar",managementIndicatorsList[i])})
       

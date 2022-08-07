@@ -206,6 +206,18 @@ getAbsolutePanel <- function(id) {
     )
   }
   
+  if (id=="AP12") {
+    return(
+      tagList(absolutePanel(id="AP9", bottom = 30, right = 45, draggable = F,
+                            column(12,
+                                   img(src='CIPSlogo.png', align = "right")
+                                   
+                            )
+      )
+      )
+    )
+  }
+  
 }
 
 getCenterReport <- function(center_name,input,output,data) {
