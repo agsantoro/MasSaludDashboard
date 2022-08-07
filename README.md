@@ -1,2 +1,2 @@
 # MasSaludDashboard
-+Salud Dashboar Prototype
++Salud Dashboard Prototype
