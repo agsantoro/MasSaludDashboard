@@ -1,0 +1,13 @@
+name: MasAPS
+title: MasAPS
+username:
+account: iecs
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 6751132
+bundleId: 6177136
+url: https://iecs.shinyapps.io/MasAPS/
+when: 1659899969.1284
+lastSyncTime: 1659899969.1284
+asMultiple: FALSE
+asStatic: FALSE

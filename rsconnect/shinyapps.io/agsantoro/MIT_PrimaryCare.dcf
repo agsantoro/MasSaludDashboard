@@ -1,0 +1,13 @@
+name: MIT_PrimaryCare
+title: MIT_PrimaryCare
+username:
+account: agsantoro
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 6674871
+bundleId: 6172481
+url: https://agsantoro.shinyapps.io/MIT_PrimaryCare/
+when: 1659720829.94833
+lastSyncTime: 1659720829.94833
+asMultiple: FALSE
+asStatic: FALSE
